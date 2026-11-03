@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+</head>
+<body>
+    <header>
+        <h1>Patient Dashboard</h1>
+        <nav aria-label="Main navigation">
+            <a href="{% url 'dashboard' %}">Dashboard</a> |
+            <a href="{% url 'profile' %}">My Profile</a> |
+            <a href="{% url 'booking' %}">Book an Appointment</a> |
+            <a href="{% url 'login' %}">Login</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Welcome</h2>
+        <p>Manage your patient profile or request a new appointment.</p>
+        <p><a href="{% url 'profile' %}">View or update your profile</a></p>
+        <p><a href="{% url 'booking' %}">Book an appointment</a></p>
+    </main>
+</body>
+</html>

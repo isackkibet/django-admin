@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile</title>
+</head>
+<body>
+    <header>
+        <h1>My Profile</h1>
+        <nav aria-label="Main navigation">
+            <a href="{% url 'dashboard' %}">Dashboard</a> |
+            <a href="{% url 'booking' %}">Book an Appointment</a>
+        </nav>
+    </header>
+    <main>
+        <form method="post">
+            {% csrf_token %}
+            <p>
+                <label for="full_name">Full name</label><br>
+                <input type="text" id="full_name" name="full_name" autocomplete="name" required>
+            </p>
+            <p>
+                <label for="email">Email</label><br>
+                <input type="email" id="email" name="email" autocomplete="email" required>
+            </p>
+            <p>
+                <label for="phone">Phone</label><br>
+                <input type="tel" id="phone" name="phone" autocomplete="tel">
+            </p>
+            <p>
+                <label for="date_of_birth">Date of birth</label><br>
+                <input type="date" id="date_of_birth" name="date_of_birth">
+            </p>
+            <p>
+                <label for="address">Address</label><br>
+                <textarea id="address" name="address" rows="3" autocomplete="street-address"></textarea>
+            </p>
+            <button type="submit">Save Profile</button>
+        </form>
+    </main>
+</body>
+</html>

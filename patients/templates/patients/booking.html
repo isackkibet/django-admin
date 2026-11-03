@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment</title>
+</head>
+<body>
+    <header>
+        <h1>Book an Appointment</h1>
+        <nav aria-label="Main navigation">
+            <a href="{% url 'dashboard' %}">Dashboard</a> |
+            <a href="{% url 'profile' %}">My Profile</a>
+        </nav>
+    </header>
+    <main>
+        <form method="post">
+            {% csrf_token %}
+            <p>
+                <label for="department">Department</label><br>
+                <select id="department" name="department" required>
+                    <option value="">Choose a department</option>
+                    <option value="general_medicine">General Medicine</option>
+                    <option value="cardiology">Cardiology</option>
+                    <option value="pediatrics">Pediatrics</option>
+                    <option value="dentistry">Dentistry</option>
+                </select>
+            </p>
+            <p>
+                <label for="doctor">Doctor (optional)</label><br>
+                <input type="text" id="doctor" name="doctor">
+            </p>
+            <p>
+                <label for="appointment_date">Preferred date</label><br>
+                <input type="date" id="appointment_date" name="appointment_date" required>
+            </p>
+            <p>
+                <label for="appointment_time">Preferred time</label><br>
+                <input type="time" id="appointment_time" name="appointment_time" required>
+            </p>
+            <p>
+                <label for="reason">Reason for visit</label><br>
+                <textarea id="reason" name="reason" rows="4" required></textarea>
+            </p>
+            <button type="submit">Request Appointment</button>
+        </form>
+    </main>
+</body>
+</html>

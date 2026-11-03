@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Application</title>
+</head>
+<body>
+    <main>
+        <h1>Student Application</h1>
+        <form method="post">
+            {% csrf_token %}
+            <p>
+                <label for="student_name">Student name</label><br>
+                <input type="text" id="student_name" name="student_name" autocomplete="name" required>
+            </p>
+            <p>
+                <label for="email">Email</label><br>
+                <input type="email" id="email" name="email" autocomplete="email" required>
+            </p>
+            <p>
+                <label for="date_of_birth">Date of birth</label><br>
+                <input type="date" id="date_of_birth" name="date_of_birth" required>
+            </p>
+            <p>
+                <label for="course">Course</label><br>
+                <input type="text" id="course" name="course" required>
+            </p>
+            <button type="submit">Submit Application</button>
+        </form>
+    </main>
+</body>
+</html>
