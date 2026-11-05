@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Book an Appointment{% endblock %}
 
@@ -7,6 +8,7 @@
         <h1>Book an Appointment</h1>
     </header>
     <main>
+        <img src="{% static 'images/77478fc7a956f9f54836a057a9210415.jpg' %}" alt="Hospital" class="booking-image">
         <form method="post">
             {% csrf_token %}
             <p>
