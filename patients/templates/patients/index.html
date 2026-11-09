@@ -1,9 +1,21 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
 {% load static %}
 
-{% block title %}Patients register home{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block content %}
-    <h2>Welcome to the Patients Register Home Page</h2>
-    <img src="{% static 'images/77478fc7a956f9f54836a057a9210415.jpg' %}" alt="Hospital" class="booking-image">
+
+<h2>Register Here</h2>
+
+<form action="" method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Register</button>
+</form>
+
+<p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+
 {% endblock %}
