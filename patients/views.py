@@ -1,5 +1,5 @@
-from django.contrib.auth import login as auth_login
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
 
 
@@ -15,15 +15,23 @@ def index(request):
     return render(request, 'patients/index.html', {'form': form})
 
 
-def login(request):
+def userlogin(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            auth_login(request, form.get_user())
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            auth_login(request, user)
             return redirect('dashboard')
-    else:
-        form = AuthenticationForm(request)
-    return render(request, 'patients/login.html', {'form': form})
+        else:
+            error_message = 'Invalid username or password'
+            return render(request, 'patients/login.html', {'error_message': error_message})
+    return render(request, 'patients/login.html')
+
+
+def userlogout(request):
+    auth_logout(request)
+    return redirect('login')
 
 
 def dashboard(request):

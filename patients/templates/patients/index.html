@@ -11,7 +11,32 @@
 <form action="" method="post">
     {% csrf_token %}
 
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <p class="fw-bold mb-2">Registration failed:</p>
+            <ul class="mb-2">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% if form.username.errors %}
+                <p class="mb-0">
+                    If that username is already yours,
+                    <a href="{% url 'login' %}" class="alert-link">log in here</a>
+                    or register with a different username.
+                </p>
+            {% endif %}
+        </div>
+    {% endif %}
+
     {{ form.as_p }}
+
+    <p class="text-muted"><small>Enter the same password in both password fields.</small></p>
 
     <button type="submit">Register</button>
 </form>
