@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
+from .forms import PatientForm
 
 
 def index(request):
@@ -44,3 +45,13 @@ def profile(request):
 
 def booking(request):
     return render(request, 'patients/booking.html')
+
+def add_patient(request):
+    if request.method == 'POST':
+        form = PatientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = PatientForm()
+    return render(request, 'patients/add_patient.html', {'form': form})
