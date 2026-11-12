@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+from .models import Patient
+
 
 class RegistrationViewTests(TestCase):
     def test_registration_page_displays_form(self):
@@ -67,3 +69,55 @@ class LoginViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Please enter a correct username and password.')
         self.assertNotIn('_auth_user_id', self.client.session)
+
+
+class AddPatientViewTests(TestCase):
+    def test_add_patient_page_displays_form(self):
+        response = self.client.get(reverse('add_patient'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Add Patient')
+
+
+class DashboardPatientListTests(TestCase):
+    def test_dashboard_shows_saved_patient_details(self):
+        patient_user = User.objects.create_user(username='dashboardpatient')
+        Patient.objects.create(
+            user=patient_user,
+            patient_id='PAT-001',
+            name='Jordan Patient',
+            email='jordan@example.com',
+            phone_number='5551234567',
+        )
+
+        response = self.client.get(reverse('dashboard'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'PAT-001')
+        self.assertContains(response, 'Jordan Patient')
+        self.assertContains(response, 'jordan@example.com')
+        self.assertContains(response, '5551234567')
+        self.assertContains(response, 'Active')
+        self.assertNotContains(response, 'Jane Smith')
+
+
+class PatientAdminTests(TestCase):
+    def test_patient_admin_lists_saved_patient(self):
+        admin_user = User.objects.create_superuser(
+            username='admin',
+            email='admin@example.com',
+            password='A-strong-passphrase-928!',
+        )
+        patient_user = User.objects.create_user(username='patient')
+        Patient.objects.create(
+            user=patient_user,
+            name='Jordan Patient',
+            email='jordan@example.com',
+        )
+        self.client.force_login(admin_user)
+
+        response = self.client.get(reverse('admin:patients_patient_changelist'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Jordan Patient')
+        self.assertContains(response, 'jordan@example.com')

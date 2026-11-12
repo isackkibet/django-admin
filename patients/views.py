@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
 from .forms import PatientForm
+from patients.models import Patient
 
 
 def index(request):
@@ -36,7 +37,8 @@ def userlogout(request):
 
 
 def dashboard(request):
-    return render(request, 'patients/dashboard.html')
+    patients = Patient.objects.select_related('user').order_by('name')
+    return render(request, 'patients/dashboard.html', {'patients': patients})
 
 
 def profile(request):
@@ -55,3 +57,7 @@ def add_patient(request):
     else:
         form = PatientForm()
     return render(request, 'patients/add_patient.html', {'form': form})
+
+def view_patients(request):
+    patients = Patient.objects.all()
+    return render(request, 'patients/view_patients.html', {'patients': patients})
