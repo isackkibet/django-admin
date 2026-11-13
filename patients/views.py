@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from .forms import PatientForm
 from patients.models import Patient
 
@@ -36,9 +36,45 @@ def userlogout(request):
     return redirect('login')
 
 
+def _render_dashboard(request, form=None, invalid_edit_form=None, invalid_edit_pk=None):
+    patients = list(Patient.objects.select_related('user').order_by('name'))
+    for patient in patients:
+        if patient.pk == invalid_edit_pk:
+            patient.edit_form = invalid_edit_form
+        else:
+            patient.edit_form = PatientForm(
+                instance=patient, auto_id=f'id_edit{patient.pk}_%s'
+            )
+    return render(request, 'patients/dashboard.html', {
+        'patients': patients,
+        'form': form or PatientForm(),
+        'open_edit_pk': invalid_edit_pk,
+    })
+
+
 def dashboard(request):
-    patients = Patient.objects.select_related('user').order_by('name')
-    return render(request, 'patients/dashboard.html', {'patients': patients})
+    form = None
+    if request.method == 'POST':
+        form = PatientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    return _render_dashboard(request, form=form)
+
+
+def edit_patient(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    if request.method != 'POST':
+        return redirect('dashboard')
+    edit_form = PatientForm(
+        request.POST, instance=patient, auto_id=f'id_edit{patient.pk}_%s'
+    )
+    if edit_form.is_valid():
+        edit_form.save()
+        return redirect('dashboard')
+    return _render_dashboard(
+        request, invalid_edit_form=edit_form, invalid_edit_pk=patient.pk
+    )
 
 
 def profile(request):
@@ -48,16 +84,9 @@ def profile(request):
 def booking(request):
     return render(request, 'patients/booking.html')
 
-def add_patient(request):
-    if request.method == 'POST':
-        form = PatientForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('dashboard')
-    else:
-        form = PatientForm()
-    return render(request, 'patients/add_patient.html', {'form': form})
 
-def view_patients(request):
-    patients = Patient.objects.all()
-    return render(request, 'patients/view_patients.html', {'patients': patients})
+def delete_patient(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    if request.method == 'POST':
+        patient.delete()
+    return redirect('dashboard')

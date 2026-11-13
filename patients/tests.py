@@ -72,11 +72,51 @@ class LoginViewTests(TestCase):
 
 
 class AddPatientViewTests(TestCase):
-    def test_add_patient_page_displays_form(self):
-        response = self.client.get(reverse('add_patient'))
+    def test_dashboard_displays_add_patient_form(self):
+        response = self.client.get(reverse('dashboard'))
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Add Patient')
+        self.assertContains(response, 'name="name"')
+        self.assertContains(response, 'name="email"')
+
+    def test_dashboard_post_creates_patient(self):
+        patient_user = User.objects.create_user(username='newpatientrecord')
+
+        response = self.client.post(
+            reverse('dashboard'),
+            {
+                'user': patient_user.pk,
+                'patient_id': 'PAT-002',
+                'name': 'New Patient',
+                'email': 'newpatient@example.com',
+            },
+        )
+
+        self.assertRedirects(response, reverse('dashboard'))
+        self.assertTrue(Patient.objects.filter(name='New Patient').exists())
+
+    def test_edit_patient_updates_record(self):
+        patient_user = User.objects.create_user(username='editme')
+        patient = Patient.objects.create(
+            user=patient_user, patient_id='PAT-010',
+            name='Old Name', email='old@example.com',
+        )
+
+        response = self.client.post(
+            reverse('edit_patient', args=[patient.pk]),
+            {
+                'user': patient_user.pk,
+                'patient_id': 'PAT-010',
+                'name': 'New Name',
+                'email': 'new@example.com',
+            },
+        )
+
+        self.assertRedirects(response, reverse('dashboard'))
+        patient.refresh_from_db()
+        self.assertEqual(patient.name, 'New Name')
+        self.assertEqual(patient.email, 'new@example.com')
 
 
 class DashboardPatientListTests(TestCase):
