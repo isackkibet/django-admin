@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Appointments - MediCare{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+        <div>
+            <h1 class="h3 fw-bold mb-1">{% if is_admin %}All appointments{% else %}My appointments{% endif %}</h1>
+            <p class="text-muted mb-0">
+                {% if is_admin %}Every appointment request recorded in the hospital.{% else %}Appointment requests linked to your patient record.{% endif %}
+            </p>
+        </div>
+        <a href="{% url 'booking' %}" class="btn btn-primary"><i class="bi bi-calendar-plus me-1"></i>Book an appointment</a>
+    </div>
+
+    <div class="card app-card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Department</th>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                            <tr>
+                                <td class="fw-semibold">{{ appointment.patient.name }}</td>
+                                <td>{{ appointment.get_department_display }}</td>
+                                <td>{{ appointment.doctor|default:"-" }}</td>
+                                <td>{{ appointment.appointment_date }}</td>
+                                <td>{{ appointment.appointment_time|time:"H:i" }}</td>
+                                <td>{{ appointment.reason|truncatechars:80 }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="py-4 text-center text-muted">
+                                    No appointments yet. <a href="{% url 'booking' %}">Book the first one</a>.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

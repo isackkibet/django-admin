@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Medical Records - MediCare{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="portal-header d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <span class="badge bg-info-subtle text-info mb-2">Patient Portal</span>
+            <h1 class="h3 fw-bold mb-1">Medical records</h1>
+            <p class="text-muted mb-0">Your personal details kept together in one place.</p>
+        </div>
+        <a href="{% url 'profile' %}" class="btn btn-outline-primary"><i class="bi bi-pencil me-1"></i>Update details</a>
+    </div>
+
+    {% if patient %}
+        <div class="card app-card">
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    <div class="col-md-3"><small class="text-muted d-block">Patient ID</small><strong>{{ patient.patient_id|default:"-" }}</strong></div>
+                    <div class="col-md-3"><small class="text-muted d-block">Full name</small><strong>{{ patient.name }}</strong></div>
+                    <div class="col-md-3"><small class="text-muted d-block">Age</small><strong>{{ patient.age|default:"-" }}</strong></div>
+                    <div class="col-md-3"><small class="text-muted d-block">Gender</small><strong>{{ patient.get_gender_display|default:"-" }}</strong></div>
+                    <div class="col-md-3"><small class="text-muted d-block">Email</small><strong>{{ patient.email }}</strong></div>
+                    <div class="col-md-3"><small class="text-muted d-block">Phone</small><strong>{{ patient.phone_number|default:"-" }}</strong></div>
+                    <div class="col-md-3"><small class="text-muted d-block">Date of birth</small><strong>{{ patient.date_of_birth|default:"-" }}</strong></div>
+                    <div class="col-md-3"><small class="text-muted d-block">Added on</small><strong>{{ patient.created_at|date:"M d, Y" }}</strong></div>
+                    <div class="col-12"><small class="text-muted d-block">Address</small><strong>{{ patient.address|default:"-" }}</strong></div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="card app-card text-center p-5">
+            <span class="stat-icon bg-warning-subtle text-warning mx-auto"><i class="bi bi-file-medical"></i></span>
+            <h2 class="h5 fw-bold mt-3">No medical record yet</h2>
+            <p class="text-muted">Complete your profile to create your patient record.</p>
+            <a href="{% url 'profile' %}" class="btn btn-primary"><i class="bi bi-person-plus me-1"></i>Complete profile</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

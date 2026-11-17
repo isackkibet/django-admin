@@ -1,35 +1,278 @@
-h1{
-    color: blue;
-    text-align: center;
-    font-family: "Times New Roman", Times, serif;
+:root {
+    --app-primary: #0d6e7a;
+    --app-primary-dark: #084b54;
+    --app-accent: #14b8a6;
+    --app-dark: #102a43;
+    --app-bg: #f6f9fb;
+    --app-border: #e3eaf0;
+    --app-text: #1f2937;
+    --app-muted: #64748b;
 }
 
-main {
-    max-width: 500px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+body {
+    background: var(--app-bg);
+    color: var(--app-text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+}
+
+a {
+    color: var(--app-primary);
+}
+
+.app-navbar {
+    background: #ffffff;
+    border-bottom: 1px solid var(--app-border);
+    box-shadow: 0 1px 8px rgba(16, 42, 67, 0.05);
+}
+
+.app-navbar .navbar-brand {
+    color: var(--app-dark);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.app-navbar .navbar-brand small {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--app-muted);
+}
+
+.brand-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--app-primary), var(--app-accent));
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.app-navbar .nav-link {
+    color: #415568;
+    font-size: 0.93rem;
+    font-weight: 500;
+    padding: 0.6rem 0.75rem !important;
+    position: relative;
+}
+
+.app-navbar .nav-link:hover,
+.app-navbar .nav-link.active {
+    color: var(--app-primary);
+}
+
+.app-navbar .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.25rem;
+    height: 2px;
+    background: var(--app-accent);
+    border-radius: 2px;
+}
+
+.app-navbar .dropdown-menu {
+    border: 1px solid var(--app-border);
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(16, 42, 67, 0.12);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--app-primary);
+    --bs-btn-border-color: var(--app-primary);
+    --bs-btn-hover-bg: var(--app-primary-dark);
+    --bs-btn-hover-border-color: var(--app-primary-dark);
+    --bs-btn-active-bg: var(--app-primary-dark);
+    --bs-btn-active-border-color: var(--app-primary-dark);
+}
+
+.app-card,
+.service-card {
+    background: #ffffff;
+    border: 1px solid var(--app-border);
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(16, 42, 67, 0.04);
+}
+
+.home-hero {
+    background: linear-gradient(135deg, var(--app-dark), var(--app-primary));
+    color: #ffffff;
+}
+
+.home-hero .lead {
+    color: #d7e6ee;
+}
+
+.hero-badge {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.hero-image-wrap {
+    padding: 1rem;
+}
+
+.section-kicker {
+    color: var(--app-accent);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.section-title {
+    color: var(--app-dark);
+    font-weight: 700;
+    margin-top: 0.5rem;
+}
+
+.section-lead {
+    max-width: 620px;
+}
+
+.service-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(16, 42, 67, 0.09);
+}
+
+.service-icon,
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+}
+
+.about-strip {
+    background: #eef5f7;
+}
+
+.cta-card {
+    background: linear-gradient(135deg, #ffffff, #eef7f8);
+    border: 1px solid var(--app-border);
+    border-radius: 18px;
+}
+
+.app-footer {
+    background: #ffffff;
+    border-top: 1px solid var(--app-border);
+    color: var(--app-muted);
+}
+
+.app-messages {
+    max-width: 1100px;
+}
+
+.portal-header {
+    background: #ffffff;
+    border: 1px solid var(--app-border);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+}
+
+.metric-card {
+    border: 1px solid var(--app-border);
+    border-radius: 14px;
+    background: #ffffff;
+    padding: 1.25rem;
+    height: 100%;
+}
+
+.metric-label {
+    color: var(--app-muted);
+    font-size: 0.85rem;
+}
+
+.metric-value {
+    color: var(--app-dark);
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin: 0.35rem 0 0;
+}
+
+.quick-action {
+    display: block;
+    padding: 1.1rem;
+    border: 1px solid var(--app-border);
+    border-radius: 14px;
+    background: #ffffff;
+    color: var(--app-text);
+    text-decoration: none;
+    height: 100%;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.quick-action:hover {
+    border-color: var(--app-accent);
+    transform: translateY(-2px);
+    color: var(--app-text);
+}
+
+.data-table > :is(thead) th {
+    color: var(--app-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.85rem 1rem;
+}
+
+.data-table td {
+    padding: 0.9rem 1rem;
+    vertical-align: middle;
+}
+
+.form-card {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+form .form-label {
+    font-weight: 600;
+    color: #334155;
+}
+
+main form p input,
+main form p select,
+main form p textarea {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    box-sizing: border-box;
+    margin-bottom: 0.5rem;
 }
 
 .booking-image {
     display: block;
     width: 100%;
-    height: auto;
-    margin-bottom: 1rem;
-    border-radius: 8px;
+    max-height: 220px;
+    object-fit: cover;
 }
 
-main select,
-main input,
-main textarea {
-    width: 100%;
-    padding: 0.5rem;
-    box-sizing: border-box;
-}
+@media (max-width: 768px) {
+    .app-navbar .navbar-brand small {
+        display: none;
+    }
 
-main button[type="submit"] {
-    display: block;
-    width: 100%;
-    padding: 0.6rem;
+    .app-navbar .nav-link.active::after {
+        display: none;
+    }
+
+    .section-title {
+        font-size: 1.7rem;
+    }
 }

@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MediCare Hospital | Care you can trust{% endblock %}
+
+{% block content %}
+<section class="home-hero">
+    <div class="container py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="badge rounded-pill hero-badge mb-3">Trusted care, closer to you</span>
+                <h1 class="display-5 fw-bold">Your health, handled with care.</h1>
+                <p class="lead mt-3">
+                    MediCare Hospital brings registration, appointments and payments into one calm, simple place — so you can focus on getting better.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg"><i class="bi bi-grid-1x2 me-2"></i>Go to My Portal</a>
+                        <form method="post" action="{% url 'logout' %}" class="m-0">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-light btn-lg"><i class="bi bi-box-arrow-right me-2"></i>Log out</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'index' %}" class="btn btn-light btn-lg"><i class="bi bi-person-plus me-2"></i>Patient Registration</a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg"><i class="bi bi-box-arrow-in-right me-2"></i>Log in</a>
+                    {% endif %}
+                </div>
+                <p class="small text-white-50 mt-3 mb-0">New here? Registration takes less than a minute.</p>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image-wrap">
+                    <img src="{% static 'images/77478fc7a956f9f54836a057a9210415.jpg' %}" alt="MediCare Hospital building" class="img-fluid rounded-4 shadow">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="services" class="container py-5">
+    <div class="text-center mb-5">
+        <span class="section-kicker">Our services</span>
+        <h2 class="section-title">Care for every stage of life</h2>
+        <p class="text-muted mx-auto section-lead">From everyday check-ups to specialist treatment, our team is here for you.</p>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card service-card h-100 text-center p-4">
+                <span class="service-icon bg-primary-subtle text-primary"><i class="bi bi-stethoscope"></i></span>
+                <h3 class="h6 fw-bold mt-3 mb-2">General Medicine</h3>
+                <p class="small text-muted mb-0">Consultations, diagnosis and treatment for common conditions.</p>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card service-card h-100 text-center p-4">
+                <span class="service-icon bg-danger-subtle text-danger"><i class="bi bi-heart"></i></span>
+                <h3 class="h6 fw-bold mt-3 mb-2">Cardiology</h3>
+                <p class="small text-muted mb-0">Heart checks and specialist cardiac care.</p>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card service-card h-100 text-center p-4">
+                <span class="service-icon bg-success-subtle text-success"><i class="bi bi-emoji-smile"></i></span>
+                <h3 class="h6 fw-bold mt-3 mb-2">Pediatrics</h3>
+                <p class="small text-muted mb-0">Gentle care for infants, children and teenagers.</p>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card service-card h-100 text-center p-4">
+                <span class="service-icon bg-warning-subtle text-warning"><i class="bi bi-brush"></i></span>
+                <h3 class="h6 fw-bold mt-3 mb-2">Dentistry</h3>
+                <p class="small text-muted mb-0">Routine cleaning, repairs and oral health advice.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="about-strip py-5">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <span class="section-kicker">About MediCare</span>
+                <h2 class="section-title">Simple healthcare, human touch.</h2>
+                <p class="text-muted">
+                    We combine experienced clinicians with straightforward digital tools. Register once, book an appointment, and keep your records and payments together.
+                </p>
+            </div>
+            <div class="col-lg-7">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="card app-card p-3 h-100">
+                            <i class="bi bi-patch-check fs-4 text-primary"></i>
+                            <h3 class="h6 fw-bold mt-3 mb-1">Experienced team</h3>
+                            <p class="small text-muted mb-0">Qualified doctors and nurses across four departments.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card app-card p-3 h-100">
+                            <i class="bi bi-clock-history fs-4 text-success"></i>
+                            <h3 class="h6 fw-bold mt-3 mb-1">Convenient hours</h3>
+                            <p class="small text-muted mb-0">Open Monday to Saturday, 8:00 AM – 6:00 PM.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card app-card p-3 h-100">
+                            <i class="bi bi-phone fs-4 text-warning"></i>
+                            <h3 class="h6 fw-bold mt-3 mb-1">M-Pesa payments</h3>
+                            <p class="small text-muted mb-0">Request and track payments from your phone.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card app-card p-3 h-100">
+                            <i class="bi bi-shield-lock fs-4 text-info"></i>
+                            <h3 class="h6 fw-bold mt-3 mb-1">Private records</h3>
+                            <p class="small text-muted mb-0">Your personal portal is protected by login.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container py-5">
+    <div class="card cta-card text-center p-5">
+        <h2 class="section-title">Ready to get started?</h2>
+        <p class="text-muted mb-4">Create your patient account or log in to manage your appointments and payments.</p>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <a href="{% url 'index' %}" class="btn btn-primary btn-lg"><i class="bi bi-person-plus me-2"></i>Patient Registration</a>
+            <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg"><i class="bi bi-box-arrow-in-right me-2"></i>Log in</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

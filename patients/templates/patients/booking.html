@@ -1,43 +1,43 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Book an Appointment{% endblock %}
+{% block title %}Book an appointment - MediCare{% endblock %}
 
 {% block content %}
-    <header>
-        <h1>Book an Appointment</h1>
-    </header>
-    <main>
-        <img src="{% static 'images/77478fc7a956f9f54836a057a9210415.jpg' %}" alt="Hospital" class="booking-image">
-        <form method="post">
-            {% csrf_token %}
-            <p>
-                <label for="department">Department</label><br>
-                <select id="department" name="department" required>
-                    <option value="">Choose a department</option>
-                    <option value="general_medicine">General Medicine</option>
-                    <option value="cardiology">Cardiology</option>
-                    <option value="pediatrics">Pediatrics</option>
-                    <option value="dentistry">Dentistry</option>
-                </select>
-            </p>
-            <p>
-                <label for="doctor">Doctor (optional)</label><br>
-                <input type="text" id="doctor" name="doctor">
-            </p>
-            <p>
-                <label for="appointment_date">Preferred date</label><br>
-                <input type="date" id="appointment_date" name="appointment_date" required>
-            </p>
-            <p>
-                <label for="appointment_time">Preferred time</label><br>
-                <input type="time" id="appointment_time" name="appointment_time" required>
-            </p>
-            <p>
-                <label for="reason">Reason for visit</label><br>
-                <textarea id="reason" name="reason" rows="4" required></textarea>
-            </p>
-            <button type="submit">Request Appointment</button>
-        </form>
-    </main>
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+        <div>
+            <h1 class="h3 fw-bold mb-1">Book an appointment</h1>
+            <p class="text-muted mb-0">Choose a patient, department, date and time. Your request will appear in View appointments.</p>
+        </div>
+        <a href="{% url 'appointment_list' %}" class="btn btn-outline-secondary"><i class="bi bi-list-check me-1"></i>View appointments</a>
+    </div>
+
+    <div class="card app-card shadow-sm">
+        <img src="{% static 'images/77478fc7a956f9f54836a057a9210415.jpg' %}" alt="Hospital" class="card-img-top booking-image">
+        <div class="card-body p-4">
+            {% if not form.patient.field.queryset %}
+                <div class="alert alert-warning">
+                    No patient records exist yet. <a href="{% url 'dashboard' %}" class="alert-link">Add a patient first</a>.
+                </div>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% if field.errors %}
+                            <div class="text-danger small">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary"><i class="bi bi-calendar-plus me-1"></i>Request appointment</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
