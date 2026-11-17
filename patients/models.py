@@ -56,3 +56,21 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f'{self.patient} - {self.get_department_display()} on {self.appointment_date}'
+
+
+class Payment(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='payments',
+    )
+    patientname = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=20, blank=True, default='')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateTimeField(auto_now_add=True)
+    transaction_id = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return f"Payment {self.transaction_id} for {self.patientname}"

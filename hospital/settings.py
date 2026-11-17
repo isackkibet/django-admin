@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_daraja.apps.DjangoDarajaConfig',
     'rest_framework',
     'patients',
     'school.student',
@@ -129,3 +130,21 @@ MAILERS = {
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
+
+MPESA_ENVIRONMENT = os.environ.get('MPESA_ENVIRONMENT', 'sandbox')
+MPESA_CONSUMER_KEY = os.environ.get('MPESA_CONSUMER_KEY', '')
+MPESA_CONSUMER_SECRET = os.environ.get('MPESA_CONSUMER_SECRET', '')
+MPESA_SHORTCODE = os.environ.get('MPESA_SHORTCODE', '600982')
+MPESA_EXPRESS_SHORTCODE = os.environ.get('MPESA_EXPRESS_SHORTCODE', '174379')
+MPESA_SHORTCODE_TYPE = 'paybill'
+MPESA_PASSKEY = os.environ.get('MPESA_PASSKEY', '')
+MPESA_INITIATOR_USERNAME = os.environ.get('MPESA_INITIATOR_USERNAME', 'testapi')
+MPESA_INITIATOR_PASSWORD = os.environ.get('MPESA_INITIATOR_PASSWORD', '')
+MPESA_INITIATOR_SECURITY_CREDENTIAL = os.environ.get(
+    'MPESA_INITIATOR_SECURITY_CREDENTIAL', ''
+)
+MPESA_TEST_PHONE = os.environ.get('MPESA_TEST_PHONE', '254708374149')
+MPESA_CALLBACK_URL = os.environ.get(
+    'MPESA_CALLBACK_URL',
+    'https://example.com/patients/mpesa/callback/',
+)
