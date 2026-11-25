@@ -1,10 +1,47 @@
-const patients = [
+import { useState } from 'react'
+
+const initialPatients = [
   { id: 'PAT-001', name: 'Alex Morgan', email: 'alex@gmail.com', phone: '+254 700 123 456', active: true },
   { id: 'PAT-002', name: 'Felix Otieno', email: 'felix@gmail.com', phone: '+254 712 345 678', active: true },
   { id: 'PAT-003', name: 'Amina Hassan', email: 'amina@gmail.com', phone: '+254 733 987 654', active: false },
 ]
 
+const emptyForm = { name: '', email: '', phone: '', active: true }
+
 function PatientTable() {
+  const [patients, setPatients] = useState(initialPatients)
+  const [showForm, setShowForm] = useState(false)
+  const [form, setForm] = useState(emptyForm)
+
+  const handleChange = (event) => {
+    const { name, value, checked, type } = event.target
+    setForm((current) => ({
+      ...current,
+      [name]: type === 'checkbox' ? checked : value,
+    }))
+  }
+
+  const handleAddPatient = (event) => {
+    event.preventDefault()
+
+    const patient = {
+      id: `PAT-${String(patients.length + 1).padStart(3, '0')}`,
+      name: form.name.trim(),
+      email: form.email.trim(),
+      phone: form.phone.trim(),
+      active: form.active,
+    }
+
+    setPatients((current) => [...current, patient])
+    setForm(emptyForm)
+    setShowForm(false)
+  }
+
+  const closeForm = () => {
+    setForm(emptyForm)
+    setShowForm(false)
+  }
+
   return (
     <div className="card table-card">
       <div className="card-body">
@@ -13,11 +50,71 @@ function PatientTable() {
             <h5 className="fw-bold">Patient Records</h5>
             <small className="text-muted">Manage patient information</small>
           </div>
-          <button type="button" className="btn btn-primary">
+          <button type="button" className="btn btn-primary" onClick={() => setShowForm(true)}>
             <i className="bi bi-plus-circle me-1"></i>
             Add Patient
           </button>
         </div>
+
+        {showForm && (
+          <form className="row g-3 mb-4" onSubmit={handleAddPatient}>
+            <div className="col-md-3">
+              <input
+                type="text"
+                name="name"
+                className="form-control"
+                placeholder="Full name"
+                aria-label="Full name"
+                value={form.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="col-md-3">
+              <input
+                type="email"
+                name="email"
+                className="form-control"
+                placeholder="Email address"
+                aria-label="Email address"
+                value={form.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col-md-3">
+              <input
+                type="text"
+                name="phone"
+                className="form-control"
+                placeholder="Phone number"
+                aria-label="Phone number"
+                value={form.phone}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col-md-3 d-flex align-items-center">
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  name="active"
+                  id="patientActive"
+                  className="form-check-input"
+                  checked={form.active}
+                  onChange={handleChange}
+                />
+                <label className="form-check-label" htmlFor="patientActive">Active</label>
+              </div>
+            </div>
+            <div className="col-12 d-flex gap-2">
+              <button type="submit" className="btn btn-success btn-sm">
+                <i className="bi bi-check-circle me-1"></i>Save Patient
+              </button>
+              <button type="button" className="btn btn-secondary btn-sm" onClick={closeForm}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
 
         <div className="row mb-3">
           <div className="col-md-4">
